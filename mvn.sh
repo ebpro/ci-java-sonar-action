@@ -20,4 +20,4 @@ docker run \
           --env PUID=`id -u` -e PGID=`id -g` \
           --env MAVEN_CONFIG=/var/maven/.m2 \
           $MAVEN_IMAGE \
-          runuser --user user --group user -- mvn -B -e -T 1C -Duser.home=/var/maven --settings /usr/local/ci-java-build-action/ci-settings.xml "$@"
+          runuser --user user --group user -- mvn -B -e -T 1C -Duser.home=/var/maven --settings /usr/local/ci-java-sonar-action/ci-settings.xml "$@"
