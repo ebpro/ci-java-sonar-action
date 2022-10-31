@@ -1,0 +1,32 @@
+name: 'Java CI Sonar'
+description: 'Run sonar against Build a Java CI project with maven and Docker'
+runs:
+  using: "composite"
+  steps:
+      # build the project in a docker container with a specific maven settings.xml
+      # it uses env variables from github secrets for the credentials
+      # to github, dockerhub and sonar.
+      - name: run sonar with Maven in docker
+        run: ${{ github.action_path }}/mvn.sh sonar:sonar -D sonar.branch.name=$(git rev-parse --abbrev-ref HEAD|tr / _ ) -DskipTests=true -Dsonar.language=java -Dsonar.report.export.path=sonar-report.json -Dsonar.host.url=${{ env.SONAR_URL }} --activate-profiles sonar
+        shell: bash
+      - name: Deploy Maven Artifacts
+        run: ${{ github.action_path }}/mvn.sh deploy
+        shell: bash
+      - name: Notify dedicated teams channel of Success
+        uses: dragos-cojocari/ms-teams-notification@v1.0.0
+        if: ${{ success() }}
+        with:
+          github-token: ${{ github.token }} # this will use the runner's token.
+          ms-teams-webhook-uri: ${{ env.MSTEAMS_WEBHOOK }}
+          notification-summary: Sonar success.
+          notification-color: 28a745
+          timezone: Europe/Paris
+      - name: Notify dedicated teams channel of Failure
+        uses: dragos-cojocari/ms-teams-notification@v1.0.0
+        if: ${{ failure() }}
+        with:
+          github-token: ${{ github.token }} # this will use the runner's token.
+          ms-teams-webhook-uri: ${{ env .MSTEAMS_WEBHOOK }}
+          notification-summary: Sonar failure.
+          notification-color: dc3545
+          timezone: Europe/Paris
