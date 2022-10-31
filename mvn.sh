@@ -14,10 +14,10 @@ docker run \
           --mount type=bind,source=${HOME}/.ssh,target=/home/user/.ssh \
           --mount type=bind,source=${HOME}/.gitconfig,target=/home/user/.gitconfig,readonly \
           --mount type=bind,source="$(pwd)",target=/usr/src/mymaven \
-          --mount type=bind,source=${SCRIPT_DIR},target=/usr/local/ci-java-build-action \
+          --mount type=bind,source=${SCRIPT_DIR},target=/usr/local/mvn-wrapper-dir \
           --workdir /usr/src/mymaven \
           --rm \
           --env PUID=`id -u` -e PGID=`id -g` \
           --env MAVEN_CONFIG=/var/maven/.m2 \
           $MAVEN_IMAGE \
-          runuser --user user --group user -- mvn -B -e -T 1C -Duser.home=/var/maven --settings /usr/local/ci-java-sonar-action/ci-settings.xml "$@"
+          runuser --user user --group user -- mvn -B -e -T 1C -Duser.home=/var/maven --settings /usr/local/mvn-wrapper-dir/ci-settings.xml "$@"
