@@ -7,7 +7,7 @@ runs:
       # it uses env variables from github secrets for the credentials
       # to github, dockerhub and sonar.
       - name: run sonar with Maven in docker
-        run: ${{ github.action_path }}/mvn.sh sonar:sonar -D sonar.branch.name=$(git rev-parse --abbrev-ref HEAD|tr / _ ) -DskipTests=true -Dsonar.language=java -Dsonar.report.export.path=sonar-report.json -Dsonar.host.url=${{ env.SONAR_URL }} --activate-profiles sonar
+        run: ${{ github.action_path }}/mvn.sh sonar:sonar -D sonar.branch.name=$(git rev-parse --abbrev-ref HEAD|tr / _ ) -DskipTests=true -Dsonar.language=java -Dsonar.report.export.path=sonar-report.json -Dsonar.host.url=${{ env.SONAR_URL }} --sonar.login=${{ env.SONAR_TOKEN }} --activate-profiles sonar
         shell: bash
       - name: Deploy Maven Artifacts
         run: ${{ github.action_path }}/mvn.sh deploy
