@@ -1,13 +1,15 @@
 name: 'Java CI Sonar'
 description: 'Run sonar against Build a Java CI project with maven and Docker'
 runs:
-  using: "composite"
+  using: "composite"i    
   steps:
+      - name: Inject slug/short variables
+        uses: rlespinasse/github-slug-action@v4.3.2
       # build the project in a docker container with a specific maven settings.xml
       # it uses env variables from github secrets for the credentials
       # to github, dockerhub and sonar.
       - name: run sonar with Maven in docker
-        run: ${{ github.action_path }}/mvn.sh sonar:sonar -D sonar.branch.name=${GITHUB_HEAD_REF-${GITHUB_REF##*/}} -DskipTests=true -Dsonar.language=java -Dsonar.report.export.path=sonar-report.json -Dsonar.host.url=${{ env.SONAR_URL }} -Dsonar.login=${{ env.SONAR_TOKEN }} --activate-profiles sonar
+        run: ${{ github.action_path }}/mvn.sh sonar:sonar -D sonar.branch.name=${{ env.GITHUB_REF_SLUG }} -DskipTests=true -Dsonar.language=java -Dsonar.report.export.path=sonar-report.json -Dsonar.host.url=${{ env.SONAR_URL }} -Dsonar.login=${{ env.SONAR_TOKEN }} --activate-profiles sonar
         shell: bash
       - name: Deploy Maven Artifacts
         run: ${{ github.action_path }}/mvn.sh deploy
