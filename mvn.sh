@@ -11,6 +11,7 @@ docker run \
           --env GITHUBLOGIN=$GITHUBLOGIN \
           --env GITHUBPASSWORD=$GITHUBPASSWORD \
           --mount type=bind,source=${HOME}/.m2,target=/var/maven/.m2 \
+          --mount type=bind,source=${HOME}/.sonar,target=/var/maven/.sonar \
           --mount type=bind,source=${HOME}/.ssh,target=/home/user/.ssh \
           --mount type=bind,source=${HOME}/.gitconfig,target=/home/user/.gitconfig,readonly \
           --mount type=bind,source="$(pwd)",target=/usr/src/mymaven \
