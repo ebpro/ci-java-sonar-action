@@ -10,8 +10,8 @@ echo PWD=$CURRENT
 docker run \
           --env GITHUBLOGIN=$GITHUBLOGIN \
           --env GITHUBPASSWORD=$GITHUBPASSWORD \
-          --mount type=bind,source=${HOME}/.m2,target=/var/maven/.m2 \
-          --mount type=bind,source=${HOME}/.sonar,target=/var/maven/.sonar \
+          --mount type=bind,source=${HOME}/.m2,target=/home/user/.m2 \
+          --mount type=bind,source=${HOME}/.sonar,target=/home/user/.sonar \
           --mount type=bind,source=${HOME}/.ssh,target=/home/user/.ssh \
           --mount type=bind,source=${HOME}/.gitconfig,target=/home/user/.gitconfig,readonly \
           --mount type=bind,source="$(pwd)",target=/usr/src/mymaven \
@@ -21,4 +21,8 @@ docker run \
           --env PUID=`id -u` -e PGID=`id -g` \
           --env MAVEN_CONFIG=/var/maven/.m2 \
           $MAVEN_IMAGE \
-          runuser --user user --group user -- mvn -B -e -T 1C -Duser.home=/var/maven --settings /usr/local/mvn-wrapper-dir/ci-settings.xml "$@"
+          runuser --user user \
+	  	--group user \
+		-- mvn -B -e -T 1C \
+		-Duser.home=/home/user \
+		--settings /usr/local/mvn-wrapper-dir/ci-settings.xml "$@"
