@@ -7,12 +7,12 @@
         <server>
             <id>github</id>
             <username>${env.GITHUBLOGIN}</username>
-            <password>${env.GITHUBPASSWORD}</password>
+            <password>${env.GITHUBTOKEN}</password>
         </server>
         <server>
             <id>dockerhub</id>
-            <username>${env.DOCKER_USERNAME}</username>
-            <password>${env.DOCKER_PASSWORD}</password>
+            <username>${env.DOCKERHUB_USERNAME}</username>
+            <password>${env.DOCKERHUB_TOKEN}</password>
         </server>
         <server>
             <id>github.pages</id>
