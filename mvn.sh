@@ -9,7 +9,7 @@ echo PWD=$CURRENT
 # mount the gh action directory in the container
 docker run \
           --env GITHUBLOGIN=$GITHUBLOGIN \
-          --env GITHUBPASSWORD=$GITHUBTOKEN \
+          --env GITHUBTOKEN=$GITHUBTOKEN \
           --mount type=bind,source=${HOME}/.m2,target=/home/user/.m2 \
           --mount type=bind,source=${HOME}/.sonar,target=/home/user/.sonar \
           --mount type=bind,source=${HOME}/.ssh,target=/home/user/.ssh \
